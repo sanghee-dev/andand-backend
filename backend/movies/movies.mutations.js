@@ -11,5 +11,7 @@ export default {
         },
       }),
     deleteMovie: (_, { id }) => client.movie.delete({ where: { id } }),
+    updateMovie: (_, { id, year, genre }) =>
+      client.movie.update({ where: { id }, data: { year, genre } }),
   },
 };
