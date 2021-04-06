@@ -1,13 +1,12 @@
-import client from "../../client";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import { protectResolver } from "../users.utils";
+import { Resolvers } from "../../types";
 
 const resolverFn = async (
   _,
   { firstName, lastName, username, email, password: newPassword },
-  { loggedInUser, protectResolver }
+  { loggedInUser, client }
 ) => {
-  protectResolver(loggedInUser);
   let uglyPassword = null;
   if (newPassword) {
     uglyPassword = await bcrypt.hash(newPassword, 10);
@@ -31,8 +30,10 @@ const resolverFn = async (
   }
 };
 
-export default {
+const resolvers: Resolvers = {
   Mutation: {
     editProfile: protectResolver(resolverFn),
   },
 };
+
+export default resolvers;
