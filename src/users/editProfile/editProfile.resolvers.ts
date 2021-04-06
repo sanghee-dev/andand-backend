@@ -21,6 +21,7 @@ const resolverFn = async (
       username,
       email,
       ...(uglyPassword && { password: uglyPassword }),
+      bio: "",
     },
   });
   if (updatedUser) {
