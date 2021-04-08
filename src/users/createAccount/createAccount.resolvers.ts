@@ -25,7 +25,7 @@ const resolvers: Resolvers = {
           throw new Error("This username/password is already taken.");
         }
         const uglyPassword = await bcrypt.hash(password, 10);
-        return client.user.create({
+        await client.user.create({
           data: {
             username,
             email,
@@ -34,8 +34,11 @@ const resolvers: Resolvers = {
             password: uglyPassword,
           },
         });
+        return {
+          ok: true,
+        };
       } catch (e) {
-        return e;
+        return { ok: false, error: "Cannot create account." };
       }
     },
   },

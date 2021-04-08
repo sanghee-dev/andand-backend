@@ -30,7 +30,7 @@ const resolvers: Resolvers = {
           token,
         };
       } catch (e) {
-        return e;
+        return { ok: false, error: "Cannot login." };
       }
     },
   },
