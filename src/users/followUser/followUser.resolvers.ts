@@ -8,6 +8,7 @@ const resolverFn = async (_, { username }, { loggedInUser }) => {
       where: {
         username,
       },
+      select: { id: true },
     });
     if (!ok) {
       return {

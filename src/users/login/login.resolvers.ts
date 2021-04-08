@@ -10,6 +10,7 @@ const resolvers: Resolvers = {
           where: {
             username,
           },
+          select: { id: true, password: true },
         });
         if (!user) {
           return {
