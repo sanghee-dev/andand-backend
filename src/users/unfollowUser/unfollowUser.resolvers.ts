@@ -1,8 +1,7 @@
 import { protectResolver } from "../users.utils";
 import { Resolvers } from "../../types";
-import client from "../../client";
 
-const resolverFn = async (_, { username }, { loggedInUser }) => {
+const resolverFn = async (_, { username }, { loggedInUser }, { client }) => {
   try {
     const ok = await client.user.findUnique({
       where: {

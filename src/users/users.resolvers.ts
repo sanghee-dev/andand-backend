@@ -1,12 +1,14 @@
 import { Resolvers } from "../types";
-import client from "../client";
 
 const resolvers: Resolvers = {
   User: {
-    totalFollowers: async ({ id }) =>
+    totalFollowers: async ({ id }, _, { client }) =>
       await client.user.count({ where: { following: { some: { id } } } }),
-    totalFollowing: async ({ id }) =>
+    totalFollowing: async ({ id }, _, { client }) =>
       await client.user.count({ where: { followers: { some: { id } } } }),
+    isMe: async ({ id }, _, { loggedInUser }) => {
+      return id === loggedInUser?.id;
+    },
   },
 };
 

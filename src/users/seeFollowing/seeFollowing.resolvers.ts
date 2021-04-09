@@ -1,9 +1,8 @@
 import { Resolvers } from "../../types";
-import client from "../../client";
 
 const resolvers: Resolvers = {
   Query: {
-    seeFollowing: async (_, { username, lastId }) => {
+    seeFollowing: async (_, { username, lastId }, { client }) => {
       try {
         const ok = await client.user.findUnique({
           where: { username },
