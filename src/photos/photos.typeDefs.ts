@@ -4,6 +4,7 @@ export default gql`
   type Photo {
     id: Int!
     user: User!
+    userId: Int!
     file: String!
     caption: String
     hashtags: [Hashtag]
@@ -11,7 +12,7 @@ export default gql`
     updatedAt: String!
   }
   type Hashtag {
-    id: String!
+    id: Int!
     hashtag: String!
     photos: [Photo]
     createAt: String!
