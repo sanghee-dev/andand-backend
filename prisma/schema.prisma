@@ -32,7 +32,7 @@ model Photo {
   userId    Int
   file      String
   caption   String?
-  Hashtag   Hashtag? @relation(fields: [hashtagId], references: [id])
+  hashtag   Hashtag? @relation(fields: [hashtagId], references: [id])
   hashtagId Int?
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,7 +40,7 @@ model Photo {
 
 model Hashtag {
   id        Int      @id @default(autoincrement())
-  hashtag   String
+  hashtag   String   @unique
   photos    Photo[]
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt

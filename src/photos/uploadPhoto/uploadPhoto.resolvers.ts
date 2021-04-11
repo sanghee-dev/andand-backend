@@ -3,9 +3,27 @@ import { Resolvers } from "../../types";
 
 const resolverFn = async (_, { file, caption }, { loggedInUser, client }) => {
   if (caption) {
-    // parse caption
-    // get or create hashtags
+    const hashtags = caption.match(/#[\w]+/g);
   }
+  client.photo.create({
+    data: {
+      file,
+      caption,
+      hashtags: {
+        connectOrCreate: [
+          {
+            where: {
+              hashtags: "#food",
+            },
+            create: {
+              hashtags: "#food",
+            },
+          },
+        ],
+      },
+    },
+  });
+
   // save the photo WITH the parsed hashtags
   // add the photo to the hashtags
   return true;
@@ -13,7 +31,7 @@ const resolverFn = async (_, { file, caption }, { loggedInUser, client }) => {
 
 const resolvers: Resolvers = {
   Mutation: {
-    editProfile: protectResolver(resolverFn),
+    uploadPhoto: protectResolver(resolverFn),
   },
 };
 
