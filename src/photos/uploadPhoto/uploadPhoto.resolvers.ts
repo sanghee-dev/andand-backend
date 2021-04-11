@@ -26,8 +26,6 @@ const resolverFn = async (_, { file, caption }, { loggedInUser, client }) => {
       },
     },
   });
-  // save the photo WITH the parsed hashtags
-  // add the photo to the hashtags
 };
 
 const resolvers: Resolvers = {
