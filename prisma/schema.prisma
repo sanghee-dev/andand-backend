@@ -27,15 +27,14 @@ model User {
 }
 
 model Photo {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
   userId    Int
   file      String
   caption   String?
-  hashtag   Hashtag? @relation(fields: [hashtagId], references: [id])
-  hashtagId Int?
-  createAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  hashtags  Hashtag[]
+  createAt  DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Hashtag {

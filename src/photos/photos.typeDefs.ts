@@ -6,7 +6,7 @@ export default gql`
     user: User!
     file: String!
     caption: String
-    Hashtag: [Hashtag]
+    hashtags: [Hashtag]
     createAt: String!
     updatedAt: String!
   }
