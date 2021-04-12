@@ -13,7 +13,29 @@ const resolverFn = async (_, { id }, { loggedInUser, client }) => {
       error: "Photo not found.",
     };
   }
-  console.log(photo);
+  const likeWhere = {
+    photoId_userId: {
+      photoId: id,
+      userId: loggedInUser.id,
+    },
+  };
+  const like = await client.like.findUnique({ where: likeWhere });
+  like
+    ? await client.like.delete({ where: likeWhere })
+    : await client.like.create({
+        data: {
+          user: {
+            connect: {
+              id: loggedInUser.id,
+            },
+          },
+          photo: {
+            connect: {
+              id: photo.id,
+            },
+          },
+        },
+      });
   return {
     ok: true,
   };

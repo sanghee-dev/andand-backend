@@ -51,10 +51,10 @@ model Like {
   id        Int      @id @default(autoincrement())
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
   photo     Photo    @relation(fields: [photoId], references: [id])
-  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
   photoId   Int
+  userId    Int
 
-  @@unique([userId, photoId])
+  @@unique([photoId, userId])
 }
