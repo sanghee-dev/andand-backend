@@ -10,6 +10,7 @@ export default gql`
     file: String!
     caption: String
     hashtags: [Hashtag]
+    likes: Int!
   }
   type Hashtag {
     id: Int!
