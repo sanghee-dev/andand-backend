@@ -1,10 +1,10 @@
 import { Resolvers } from "../../types";
 import { protectResolver } from "../../users/users.utils";
 
-const resolverFn = async (_, { id }, { loggedInUser, client }) => {
+const resolverFn = async (_, { photoId }, { loggedInUser, client }) => {
   const photo = await client.photo.findUnique({
     where: {
-      id,
+      id: photoId,
     },
   });
   if (!photo) {
@@ -15,7 +15,7 @@ const resolverFn = async (_, { id }, { loggedInUser, client }) => {
   }
   const likeWhere = {
     photoId_userId: {
-      photoId: id,
+      photoId,
       userId: loggedInUser.id,
     },
   };

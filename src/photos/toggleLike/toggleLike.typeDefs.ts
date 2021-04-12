@@ -6,6 +6,6 @@ export default gql`
     error: String
   }
   type Mutation {
-    toggleLike(id: Int!): toggleLikeResult!
+    toggleLike(photoId: Int!): toggleLikeResult!
   }
 `;

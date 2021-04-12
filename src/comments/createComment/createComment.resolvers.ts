@@ -1,10 +1,14 @@
 import { Resolvers } from "../../types";
 import { protectResolver } from "../../users/users.utils";
 
-const resolverFn = async (_, { id, payload }, { loggedInUser, client }) => {
+const resolverFn = async (
+  _,
+  { photoId, payload },
+  { loggedInUser, client }
+) => {
   const ok = await client.photo.findUnique({
     where: {
-      id,
+      id: photoId,
     },
     select: {
       id: true,
@@ -21,7 +25,7 @@ const resolverFn = async (_, { id, payload }, { loggedInUser, client }) => {
       payload,
       photo: {
         connect: {
-          id,
+          id: photoId,
         },
       },
       user: {

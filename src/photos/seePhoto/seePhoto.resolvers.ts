@@ -2,10 +2,10 @@ import { Resolvers } from "../../types";
 
 const resolvers: Resolvers = {
   Query: {
-    seePhoto: async (_, { id }, { client }) =>
+    seePhoto: async (_, { photoId }, { client }) =>
       client.photo.findUnique({
         where: {
-          id,
+          id: photoId,
         },
       }),
   },

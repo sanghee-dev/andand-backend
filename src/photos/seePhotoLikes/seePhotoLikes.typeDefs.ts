@@ -2,6 +2,6 @@ import { gql } from "apollo-server-core";
 
 export default gql`
   type Query {
-    seePhotoLikes(id: Int!, page: Int!): [User]
+    seePhotoLikes(photoId: Int!, page: Int!): [User]
   }
 `;
