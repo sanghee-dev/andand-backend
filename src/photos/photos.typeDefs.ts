@@ -11,6 +11,7 @@ export default gql`
     caption: String
     hashtags: [Hashtag]
     likes: Int!
+    isMine: Boolean!
   }
   type Hashtag {
     id: Int!
