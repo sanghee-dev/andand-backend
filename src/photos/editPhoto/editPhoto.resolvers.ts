@@ -1,17 +1,25 @@
 import { Resolvers } from "../../types";
 import { protectResolver } from "../../users/users.utils";
+import { processHashtags } from "../photos.utils";
 
 const resolverFn = async (_, { id, caption }, { loggedInUser, client }) => {
-  const photo = await client.photo.findFirst({
+  const oldPhoto = await client.photo.findFirst({
     where: {
       id,
       userId: loggedInUser.id,
     },
+    include: {
+      hashtags: {
+        select: {
+          hashtag: true,
+        },
+      },
+    },
   });
-  if (!photo) {
+  if (!oldPhoto) {
     return {
       ok: false,
-      error: "Photo not found",
+      error: "Photo not found.",
     };
   }
   await client.photo.update({
@@ -20,7 +28,10 @@ const resolverFn = async (_, { id, caption }, { loggedInUser, client }) => {
     },
     data: {
       caption,
-      hashtag: [],
+      hashtags: {
+        disconnect: oldPhoto.hashtags,
+        connectOrCreate: processHashtags(caption),
+      },
     },
   });
   return {

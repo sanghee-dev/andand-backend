@@ -1,24 +1,15 @@
 import { protectResolver } from "../../users/users.utils";
 import { Resolvers } from "../../types";
+import { processHashtags } from "../photos.utils";
 
-const resolverFn = async (_, { file, caption }, { loggedInUser, client }) => {
-  let hashtagObj = [];
-  if (caption) {
-    const hashtags = caption.match(/#[\w]+/g);
-    hashtagObj = hashtags.map((hashtag) => ({
-      where: { hashtag },
-      create: { hashtag },
-    }));
-  }
-  return await client.photo.create({
+const resolverFn = async (_, { file, caption }, { loggedInUser, client }) =>
+  await client.photo.create({
     data: {
       file,
       caption,
-      ...(hashtagObj.length > 0 && {
-        hashtags: {
-          connectOrCreate: hashtagObj,
-        },
-      }),
+      hashtags: {
+        connectOrCreate: processHashtags(caption),
+      },
       user: {
         connect: {
           id: loggedInUser.id,
@@ -26,7 +17,6 @@ const resolverFn = async (_, { file, caption }, { loggedInUser, client }) => {
       },
     },
   });
-};
 
 const resolvers: Resolvers = {
   Mutation: {
