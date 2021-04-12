@@ -24,12 +24,14 @@ const resolvers: Resolvers = {
           photoId: id,
         },
       }),
-    comments: async ({ id }, __, { client }) =>
+    comments: async ({ id }, _, { client }) =>
       await client.comment.count({
         where: {
           photoId: id,
         },
       }),
+    isMine: async ({ userId }, _, { loggedInUser }) =>
+      userId === loggedInUser?.id,
   },
 
   Hashtag: {

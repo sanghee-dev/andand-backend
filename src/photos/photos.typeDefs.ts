@@ -11,8 +11,8 @@ export default gql`
     caption: String
     hashtags: [Hashtag]
     likes: Int!
-    isMine: Boolean!
     comments: Int!
+    isMine: Boolean!
   }
   type Hashtag {
     id: Int!
@@ -21,11 +21,5 @@ export default gql`
     hashtag: String!
     photos(page: Int!): [Photo]
     totalPhotos: Int!
-  }
-  type Like {
-    id: Int!
-    createAt: String!
-    updatedAt: String!
-    photo: Photo!
   }
 `;
