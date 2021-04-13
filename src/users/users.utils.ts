@@ -23,10 +23,15 @@ export const getUser = async (token) => {
 
 export const protectResolver = (ourResolver) => (root, args, context, info) => {
   if (!context.loggedInUser) {
-    return {
-      ok: false,
-      error: "Please log in to perform this action.",
-    };
+    const isMutation = info.operation.operation === "mutation";
+    if (isMutation) {
+      return {
+        ok: false,
+        error: "Please log in to perform this action.",
+      };
+    } else {
+      return null;
+    }
   }
   return ourResolver(root, args, context, info);
 };
