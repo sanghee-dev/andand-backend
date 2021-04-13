@@ -5,4 +5,10 @@ export default gql`
     ok: Boolean!
     error: String
   }
+
+  type LoginResponse {
+    ok: Boolean!
+    error: String
+    token: String
+  }
 `;
