@@ -27,7 +27,7 @@ model User {
   likes     Like[]
   comments  Comment[]
   rooms     Room[]
-  message   Message[]
+  messages  Message[]
 }
 
 model Photo {

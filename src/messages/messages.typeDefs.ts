@@ -14,6 +14,6 @@ export default gql`
     createAt: String!
     updatedAt: String!
     users: [User]!
-    message: [Message]!
+    messages: [Message]!
   }
 `;
