@@ -2,10 +2,10 @@ import { Resolvers } from "../types";
 
 const resolvers: Resolvers = {
   Photo: {
-    user: async ({ userId }, _, { client }) =>
+    user: async ({ id }, _, { client }) =>
       await client.user.findUnique({
         where: {
-          id: userId,
+          id,
         },
       }),
     hashtags: async ({ id }, _, { client }) =>
@@ -30,8 +30,7 @@ const resolvers: Resolvers = {
           photoId: id,
         },
       }),
-    isMine: async ({ userId }, _, { loggedInUser }) =>
-      userId === loggedInUser?.id,
+    isMine: async ({ id }, _, { loggedInUser }) => id === loggedInUser?.id,
   },
 
   Hashtag: {

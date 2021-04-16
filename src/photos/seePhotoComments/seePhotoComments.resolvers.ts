@@ -2,11 +2,11 @@ import { Resolvers } from "../../types";
 
 const resolvers: Resolvers = {
   Query: {
-    seePhotoComments: async (_, { photoId, page }, { client }) =>
+    seePhotoComments: async (_, { id, page }, { client }) =>
       client.comment.findMany({
         where: {
           photo: {
-            id: photoId,
+            id,
           },
         },
         orderBy: {

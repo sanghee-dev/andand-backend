@@ -1,10 +1,10 @@
 import { protectResolver } from "../../users/users.utils";
 import { Resolvers } from "../../types";
 
-const resolverFn = async (_, { roomId }, { loggedInUser, client }) =>
+const resolverFn = async (_, { id }, { loggedInUser, client }) =>
   await client.room.findFirst({
     where: {
-      id: roomId,
+      id,
       users: {
         some: {
           id: loggedInUser.id,

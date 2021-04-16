@@ -2,14 +2,10 @@ import { Resolvers } from "../../types";
 import { protectResolver } from "../../users/users.utils";
 import { processHashtags } from "../photos.utils";
 
-const resolverFn = async (
-  _,
-  { photoId, caption },
-  { loggedInUser, client }
-) => {
+const resolverFn = async (_, { id, caption }, { loggedInUser, client }) => {
   const oldPhoto = await client.photo.findFirst({
     where: {
-      id: photoId,
+      id,
       userId: loggedInUser.id,
     },
     include: {
@@ -28,7 +24,7 @@ const resolverFn = async (
   }
   await client.photo.update({
     where: {
-      id: photoId,
+      id,
     },
     data: {
       caption,

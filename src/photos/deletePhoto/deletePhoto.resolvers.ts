@@ -1,10 +1,10 @@
 import { Resolvers } from "../../types";
 import { protectResolver } from "../../users/users.utils";
 
-const resolverFn = async (_, { photoId }, { loggedInUser, client }) => {
+const resolverFn = async (_, { id }, { loggedInUser, client }) => {
   const photo = await client.photo.findUnique({
     where: {
-      id: photoId,
+      id,
     },
     select: {
       userId: true,
@@ -23,7 +23,7 @@ const resolverFn = async (_, { photoId }, { loggedInUser, client }) => {
   } else {
     await client.photo.delete({
       where: {
-        id: photoId,
+        id,
       },
     });
     return {

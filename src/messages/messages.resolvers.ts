@@ -2,34 +2,21 @@ import { Resolvers } from "../types";
 
 const resolvers: Resolvers = {
   Room: {
-    users: async ({ roomId }, _, { client }) =>
-      await client.user.findMany({
-        where: {
-          rooms: {
-            some: {
-              id: roomId,
-            },
-          },
-        },
-      }),
-    messages: async ({ roomId }, { page }, { client }) =>
+    users: async ({ id }, _, { client }) =>
+      await client.room.findFirst({ where: { id } }).users(),
+    messages: async ({ id }, _, { client }) =>
       await client.message.findMany({
         where: {
-          roomId,
+          roomId: id,
         },
-        orderBy: {
-          createAt: "desc",
-        },
-        skip: (page - 1) * 5,
-        take: 5,
       }),
-    unreadTotal: async ({ roomId }, _, { loggedInUser, client }) => {
+    unreadTotal: async ({ id }, _, { loggedInUser, client }) => {
       if (!loggedInUser) {
         return 0;
       }
-      await client.message.count({
+      return await client.message.count({
         where: {
-          roomId,
+          roomId: id,
           read: false,
           user: {
             id: {
@@ -39,6 +26,14 @@ const resolvers: Resolvers = {
         },
       });
     },
+  },
+  Message: {
+    user: async ({ userId }, _, { client }) =>
+      await client.user.findUnique({
+        where: {
+          id: userId,
+        },
+      }),
   },
 };
 

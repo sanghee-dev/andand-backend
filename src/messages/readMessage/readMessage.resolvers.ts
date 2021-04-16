@@ -1,10 +1,10 @@
 import { protectResolver } from "../../users/users.utils";
 import { Resolvers } from "../../types";
 
-const resolverFn = async (_, { messageId }, { loggedInUser, client }) => {
+const resolverFn = async (_, { id }, { loggedInUser, client }) => {
   const message = await client.message.findFirst({
     where: {
-      id: messageId,
+      id,
       userId: {
         not: loggedInUser.id,
       },
@@ -17,7 +17,7 @@ const resolverFn = async (_, { messageId }, { loggedInUser, client }) => {
       },
     },
     select: {
-      id: messageId,
+      id: true,
     },
   });
   if (!message) {
@@ -28,7 +28,7 @@ const resolverFn = async (_, { messageId }, { loggedInUser, client }) => {
   }
   await client.message.update({
     where: {
-      id: messageId,
+      id,
     },
     data: {
       read: true,

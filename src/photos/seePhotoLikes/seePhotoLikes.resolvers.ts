@@ -2,10 +2,10 @@ import { Resolvers } from "../../types";
 
 const resolvers: Resolvers = {
   Query: {
-    seePhotoLikes: async (_, { photoId, page }, { client }) => {
+    seePhotoLikes: async (_, { id, page }, { client }) => {
       const likes = await client.like.findMany({
         where: {
-          photoId,
+          photoId: id,
         },
         select: {
           user: true,
