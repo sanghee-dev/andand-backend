@@ -1,5 +1,7 @@
 import { protectResolver } from "../../users/users.utils";
 import { Resolvers } from "../../types";
+import pubsub from "../../pubsub";
+import { NEW_MESSAGE } from "../../constants";
 
 const resolverFn = async (
   _,
@@ -34,7 +36,7 @@ const resolverFn = async (
         },
       });
       room = existingRoom[0];
-      // if !room, create new room.
+      // if !room, create new room and check loggedInUser.
       if (!room) {
         room = await client.room.create({
           data: {
@@ -55,9 +57,14 @@ const resolverFn = async (
   }
   // if !room && roomId, find a room with roomId
   if (!room && roomId) {
-    room = await client.room.findUnique({
+    room = await client.room.findFirst({
       where: {
         id: roomId,
+        users: {
+          some: {
+            id: loggedInUser.id,
+          },
+        },
       },
       select: {
         id: true,
@@ -70,7 +77,8 @@ const resolverFn = async (
       };
     }
   }
-  await client.message.create({
+  // create message
+  const message = await client.message.create({
     data: {
       payload,
       user: {
@@ -84,6 +92,10 @@ const resolverFn = async (
         },
       },
     },
+  });
+  // publish message
+  pubsub.publish(NEW_MESSAGE, {
+    roomUpdates: { ...message },
   });
   return {
     ok: true,
