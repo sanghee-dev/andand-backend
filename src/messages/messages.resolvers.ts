@@ -23,7 +23,22 @@ const resolvers: Resolvers = {
         skip: (page - 1) * 5,
         take: 5,
       }),
-    unreadTotal: async () => await 0,
+    unreadTotal: async ({ roomId }, _, { loggedInUser, client }) => {
+      if (!loggedInUser) {
+        return 0;
+      }
+      await client.message.count({
+        where: {
+          roomId,
+          read: false,
+          user: {
+            id: {
+              not: loggedInUser.id,
+            },
+          },
+        },
+      });
+    },
   },
 };
 
