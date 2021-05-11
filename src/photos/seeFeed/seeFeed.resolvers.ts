@@ -20,7 +20,7 @@ const resolverFn = async (_, { page }, { loggedInUser, client }) =>
       ],
     },
     orderBy: {
-      createAt: "desc",
+      createdAt: "desc",
     },
     skip: (page - 1) * 5,
     take: 5,

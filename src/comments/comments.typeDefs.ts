@@ -3,7 +3,7 @@ import { gql } from "apollo-server-core";
 export default gql`
   type Comment {
     id: Int!
-    createAt: String!
+    createdAt: String!
     updatedAt: String!
     photo: Photo!
     user: User!

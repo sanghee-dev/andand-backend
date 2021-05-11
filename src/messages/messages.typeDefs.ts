@@ -3,7 +3,7 @@ import { gql } from "apollo-server-core";
 export default gql`
   type Message {
     id: Int!
-    createAt: String!
+    createdAt: String!
     updatedAt: String!
     payload: String!
     user: User!
@@ -12,7 +12,7 @@ export default gql`
   }
   type Room {
     id: Int!
-    createAt: String!
+    createdAt: String!
     updatedAt: String!
     users: [User]!
     messages: [Message]!

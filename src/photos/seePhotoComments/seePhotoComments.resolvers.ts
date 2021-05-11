@@ -10,7 +10,7 @@ const resolvers: Resolvers = {
           },
         },
         orderBy: {
-          createAt: "desc",
+          createdAt: "desc",
         },
         skip: (page - 1) * 5,
         take: 5,
