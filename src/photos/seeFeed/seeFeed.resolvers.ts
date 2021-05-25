@@ -1,7 +1,7 @@
 import { protectResolver } from "../../users/users.utils";
 import { Resolvers } from "../../types";
 
-const resolverFn = async (_, { page }, { loggedInUser, client }) =>
+const resolverFn = async (_, { page, lastId }, { loggedInUser, client }) =>
   await client.photo.findMany({
     where: {
       OR: [
@@ -22,8 +22,9 @@ const resolverFn = async (_, { page }, { loggedInUser, client }) =>
     orderBy: {
       createdAt: "desc",
     },
-    skip: (page - 1) * 5,
+    skip: lastId ? 1 : 0,
     take: 5,
+    ...(lastId && { cursor: { id: lastId } }),
   });
 
 const resolvers: Resolvers = {
